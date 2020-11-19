@@ -1,24 +1,10 @@
-# README
+# Strategies for Mocking API Calls
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This repository is used for an exercise that explores the following strategies
+for mocking third-party API calls:
 
-Things you may want to cover:
+* Stub HTTP Requests (using WebMock)
+* Stub Methods on the Adapter
+* Real Request to Fake Adapter
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+To see the results of the exercise, check out the branch `show-upcoming-event`
