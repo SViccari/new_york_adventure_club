@@ -3,8 +3,15 @@ require "rails_helper"
 RSpec.describe MeetupEvent do
   describe "#name" do
     it "returns the name" do
-      event_data = [ { "name" => "Foosball Game" } ]
-      expect(HTTParty).to receive(:get).and_return(event_data)
+      event_data = { "name" => "Foosball Game" }
+      meetup_api_client_double = instance_double(
+        MeetupApiClient,
+        next_event: event_data
+      )
+
+      expect(MeetupApiClient)
+        .to receive(:new)
+        .and_return(meetup_api_client_double)
 
       meetup_event = MeetupEvent.new
 
@@ -14,8 +21,15 @@ RSpec.describe MeetupEvent do
 
   describe "#venue" do
     it "returns the venue name" do
-      event_data = [ { "venue" => { "name" => "Basement" } } ]
-      expect(HTTParty).to receive(:get).and_return(event_data)
+      event_data = { "venue" => { "name" => "Basement" } }
+      meetup_api_client_double = instance_double(
+        MeetupApiClient,
+        next_event: event_data
+      )
+
+      expect(MeetupApiClient)
+        .to receive(:new)
+        .and_return(meetup_api_client_double)
 
       meetup_event = MeetupEvent.new
 
@@ -25,8 +39,16 @@ RSpec.describe MeetupEvent do
 
   describe "#date" do
     it "returns the event date" do
-      event_data = [ { "local_date" => "2021-01-15" } ]
-      expect(HTTParty).to receive(:get).and_return(event_data)
+      event_data = { "local_date" => "2021-01-15" }
+
+      meetup_api_client_double = instance_double(
+        MeetupApiClient,
+        next_event: event_data
+      )
+
+      expect(MeetupApiClient)
+        .to receive(:new)
+        .and_return(meetup_api_client_double)
 
       meetup_event = MeetupEvent.new
 
