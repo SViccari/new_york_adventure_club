@@ -1,4 +1,8 @@
 class MeetupEvent
+  def initialize(data_source: MeetupApiClient.new)
+    @data_source = data_source
+  end
+
   def name
     events_data["name"]
   end
@@ -12,8 +16,9 @@ class MeetupEvent
   end
 
   private
+  attr_reader :data_source
 
   def events_data
-    @_events_data ||= MeetupApiClient.new.next_event
+    @_events_data ||= data_source.next_event
   end
 end
