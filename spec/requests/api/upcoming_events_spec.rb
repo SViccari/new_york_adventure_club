@@ -1,5 +1,3 @@
-# Feature Goal: Next Upcoming Event, name, venue, date
-
 require "rails_helper"
 
 RSpec.describe "GET /api/upcoming_events" do
@@ -7,5 +5,11 @@ RSpec.describe "GET /api/upcoming_events" do
     get "/api/upcoming_events"
 
     expect(response).to be_successful
+
+    event = JSON.parse(response.body)
+
+    expect(event["name"]).to match(/Exposing NYC's Gilded Age Elite Society/)
+    expect(event["venue"]["name"]).to eq("Online event")
+    expect(event["local_date"]).to eq("2021-01-13")
   end
 end
