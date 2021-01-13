@@ -1,10 +1,11 @@
-# Strategies for Mocking API Calls
+# Strategies for Testing Third Party Integrations
 
 This repository is used for an exercise that explores the following strategies
 for mocking third-party API calls:
 
-* Stub HTTP Requests (using WebMock)
-* Stub Methods on the Adapter
-* Real Request to Fake Adapter
+* Stubbing the Network (using WebMock)
+* Stubbing the Adapter
+* Swapping out the Adapter
 
-To see the results of the exercise, check out the branch `show-upcoming-event`
+All implementations are kept in separate branches to ensure the main branch
+provides a greenfield space for future groups.
