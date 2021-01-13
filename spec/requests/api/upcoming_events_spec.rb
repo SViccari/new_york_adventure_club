@@ -2,7 +2,14 @@ require "rails_helper"
 
 RSpec.describe "GET /api/upcoming_events" do
   it "returns the next upcoming event" do
-    allow(HTTParty).to receive(:get).and_call_original
+    data = [
+      {
+        name: "RSpec Training",
+        venue: { name: "Mars" },
+        local_date: "2000-01-13"
+      }
+    ]
+    stub_meetup_api_request(data)
 
     get "/api/upcoming_events"
 
@@ -10,10 +17,19 @@ RSpec.describe "GET /api/upcoming_events" do
 
     event = JSON.parse(response.body)
 
-    expect(event["name"]).to match(/Exposing NYC's Gilded Age Elite Society/)
-    expect(event["venue"]).to eq("Online event")
-    expect(event["local_date"]).to eq("2021-01-13")
+    expect(event["name"]).to eq("RSpec Training")
+    expect(event["venue"]).to eq("Mars")
+    expect(event["local_date"]).to eq("2000-01-13")
+  end
 
-    expect(HTTParty).to have_received(:get).once
+  def stub_meetup_api_request(data)
+    stub_request(
+      :get,
+      "https://api.meetup.com/NewYorkAdventureClub/events"
+    ).to_return(
+      status: 200,
+      headers: { content_type: 'application/json' },
+      body: data.to_json
+    )
   end
 end
