@@ -1,19 +1,13 @@
 module Api
   class UpcomingEventsController < ApplicationController
     def index
+      meetup_event = MeetupEvent.new
+
       render json: {
-        name: event_data["name"],
-        venue: event_data.dig("venue", "name"),
-        local_date: event_data["local_date"]
+        name: meetup_event.name,
+        venue: meetup_event.venue,
+        local_date: meetup_event.local_date
       }
-    end
-
-    private
-
-    def event_data
-      HTTParty
-        .get("https://api.meetup.com/NewYorkAdventureClub/events")
-        .first
     end
   end
 end
