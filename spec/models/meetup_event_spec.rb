@@ -4,14 +4,7 @@ RSpec.describe MeetupEvent do
   describe "#name" do
     it "returns the name" do
       event_data = { "name" => "Foosball Game" }
-      meetup_api_client_double = instance_double(
-        MeetupApiClient,
-        next_event: event_data
-      )
-
-      expect(MeetupApiClient)
-        .to receive(:new)
-        .and_return(meetup_api_client_double)
+      stub_meetup_api_client(event_data)
 
       meetup_event = MeetupEvent.new
 
@@ -22,14 +15,7 @@ RSpec.describe MeetupEvent do
   describe "#venue" do
     it "returns the venue name" do
       event_data = { "venue" => { "name" => "Basement" } }
-      meetup_api_client_double = instance_double(
-        MeetupApiClient,
-        next_event: event_data
-      )
-
-      expect(MeetupApiClient)
-        .to receive(:new)
-        .and_return(meetup_api_client_double)
+      stub_meetup_api_client(event_data)
 
       meetup_event = MeetupEvent.new
 
@@ -40,19 +26,17 @@ RSpec.describe MeetupEvent do
   describe "#date" do
     it "returns the event date" do
       event_data = { "local_date" => "2021-01-15" }
-
-      meetup_api_client_double = instance_double(
-        MeetupApiClient,
-        next_event: event_data
-      )
-
-      expect(MeetupApiClient)
-        .to receive(:new)
-        .and_return(meetup_api_client_double)
+      stub_meetup_api_client(event_data)
 
       meetup_event = MeetupEvent.new
 
       expect(meetup_event.date).to eq("2021-01-15")
+    end
+  end
+
+  def stub_meetup_api_client(event_data)
+    instance_double(MeetupApiClient, next_event: event_data).tap do |double|
+      allow(MeetupApiClient).to receive(:new).and_return(double)
     end
   end
 end
