@@ -8,8 +8,8 @@ RSpec.describe "GET /api/v1/upcoming_events" do
 
     expect(response).to be_successful
 
-    expect(event["name"]).to eq("'The Great Murals of New York City' Webinar")
-    expect(event["venue"]["name"]).to eq("Online event")
-    expect(event["local_date"]).to eq("2021-01-13")
+    expect(event["event_name"]).to match("'The Great Murals of New York City")
+    expect(event["event_venue"]).to eq("Online event")
+    expect(event["event_date"]).to eq("2021-01-13")
   end
 end

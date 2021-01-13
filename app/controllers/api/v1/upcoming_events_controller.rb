@@ -2,7 +2,11 @@ module Api
   module V1
     class UpcomingEventsController < ApplicationController
       def index
-        render json: events_data
+        render json: {
+          event_name: events_data["name"],
+          event_venue: events_data["venue"]["name"],
+          event_date: events_data["local_date"]
+        }
       end
 
       private
