@@ -14,8 +14,6 @@ class MeetupEvent
   private
 
   def event_data
-    @_event_data ||= HTTParty
-      .get("https://api.meetup.com/NewYorkAdventureClub/events")
-      .first
+    @_event_data ||= MeetupApiClient.new.next_event
   end
 end

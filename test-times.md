@@ -5,7 +5,7 @@ Second Iteration:
 WebMock to stub out requests and stubbing the Adapter (HTTParty)
 Time to run tests: 0.06325 seconds
 
-
-Third Iteration: Stub the Adapter
+Third Iteration: WebMock + Stub our Domain Adapter (ApiMeetupClient)
+Time to run tests: 0.06764 seconds
 
 Fourth Iteration: Use a Fake Adapter

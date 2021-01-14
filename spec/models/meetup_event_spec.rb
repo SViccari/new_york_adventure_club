@@ -1,11 +1,19 @@
 require "rails_helper"
 
 RSpec.describe MeetupEvent do
+  let(:meetup_api_client) do
+    instance_double(MeetupApiClient, next_event: next_event_data)
+  end
+
   describe "#name" do
+    let(:next_event_data) do
+      { "name" => "RSpec Training" }
+    end
+
     it "returns the event name" do
-      allow(HTTParty)
-        .to receive(:get)
-        .and_return([{ "name" => "RSpec Training" }])
+      allow(MeetupApiClient)
+        .to receive(:new)
+        .and_return(meetup_api_client)
 
       meetup_event = MeetupEvent.new
 
@@ -15,9 +23,8 @@ RSpec.describe MeetupEvent do
 
   describe "#venue" do
     it "returns the event venue" do
-      allow(HTTParty)
-        .to receive(:get)
-        .and_return([{ "venue" => { "name" => "Mars" }}])
+      event_data = { "venue" => { "name" => "Mars" } }
+      stub_meetup_api(event_data)
 
       meetup_event = MeetupEvent.new
 
@@ -27,9 +34,14 @@ RSpec.describe MeetupEvent do
 
   describe "#local_date" do
     it "returns the event date" do
-      allow(HTTParty)
-        .to receive(:get)
-        .and_return([{ "local_date" => "2000-01-13" }])
+      meetup_api_client = instance_double(
+        MeetupApiClient,
+        next_event: { "local_date" => "2000-01-13" }
+      )
+
+      allow(MeetupApiClient)
+        .to receive(:new)
+        .and_return(meetup_api_client)
 
       meetup_event = MeetupEvent.new
 
@@ -38,14 +50,25 @@ RSpec.describe MeetupEvent do
   end
 
   it "only issues the API call once" do
-    allow(HTTParty)
-      .to receive(:get)
-      .and_return([{"name" => "RSpec Training"}])
+    meetup_api_client = instance_double(
+      MeetupApiClient,
+      next_event: { "name" => "" }
+    )
+
+    allow(MeetupApiClient)
+      .to receive(:new)
+      .and_return(meetup_api_client)
 
     meetup_event = MeetupEvent.new
     meetup_event.name
     meetup_event.name
 
-    expect(HTTParty).to have_received(:get).once
+    expect(MeetupApiClient).to have_received(:new).once
+  end
+
+  def stub_meetup_api(data)
+    instance_double(MeetupApiClient, next_event: data).tap do |double|
+      allow(MeetupApiClient).to receive(:new).and_return(double)
+    end
   end
 end
